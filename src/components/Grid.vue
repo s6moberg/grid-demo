@@ -1,13 +1,22 @@
 <template>
-  <div>
-    <b-container class="bv-row">
+  <div id='main'>
+    <b-container class="bv-row container">
+      <b-row>
+        <b-col>
+          <b-card class="text-center">
+          {{ getMessage }}
+          </b-card>
+        </b-col>
+      </b-row>
+      <br />
       <b-row>
         <b-col><b-button @click="sortProducts({column: 'title', type: 'string'})" variant="danger">Title</b-button></b-col>
         <b-col><b-button @click="sortProducts({column: 'description', type: 'string'})" variant="danger">Description</b-button></b-col>
         <b-col><b-button @click="sortProducts({column: 'price', type: 'numeric'})" variant="danger">Price</b-button></b-col>
         <b-col><b-button @click="sortProducts({column: 'quantity', type: 'numeric'})" variant="danger">Quantity</b-button></b-col>
-        <b-col><b-button variant="danger">Image</b-button></b-col>
+        <b-col><b-button @click="addProduct" variant="success">Add Product</b-button></b-col>
       </b-row>
+      <br />
       <b-row v-for="product in getProducts" :key="product.id">
         <b-col>
           <ProductAttribute 
@@ -34,7 +43,7 @@
           />
         </b-col>
         <b-col>
-          <ProductAttribute 
+          <ProductImage
             :product="product"
             column="image" 
           />
@@ -47,22 +56,26 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import ProductAttribute from './ProductAttribute.vue'
+import ProductImage from './ProductImage.vue'
 
 export default {
   name: 'Grid',
   components: {
-    ProductAttribute
+    ProductAttribute,
+    ProductImage
   },
   computed: {
-    ...mapGetters(['getProducts'])
+    ...mapGetters(['getProducts', 'getMessage'])
 
   },
   methods: {
-    ...mapActions(['sortProducts'])
+    ...mapActions(['sortProducts', 'addProduct'])
   }
 }
 </script>
 
 <style scoped>
-
+  #main {
+    min-width: 1200px;
+  }
 </style>
